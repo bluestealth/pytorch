@@ -5,6 +5,7 @@
 #include <ostream>
 #include <fstream>
 #include <algorithm>
+#include <ctime>
 
 #include <c10/core/Allocator.h>
 #include <c10/core/CPUAllocator.h>
@@ -344,6 +345,7 @@ void PyTorchStreamWriter::setup(const string& file_name) {
   ar_->m_pWrite = ostream_write_func;
 
   mz_zip_writer_init_v2(ar_.get(), 0, MZ_ZIP_FLAG_WRITE_ZIP64);
+  archive_m_time_ = std::time(nullptr);
   valid("initializing archive ", file_name.c_str());
 }
 
@@ -374,7 +376,7 @@ void PyTorchStreamWriter::writeRecord(
       flags,
       0,
       0,
-      nullptr,
+      &archive_m_time_,
       padding_.c_str(),
       padding_size,
       nullptr,

@@ -8,6 +8,7 @@
 #include <mutex>
 #include <ostream>
 #include <unordered_set>
+#include <ctime>
 
 #include <c10/core/Allocator.h>
 #include <c10/core/Backend.h>
@@ -161,6 +162,7 @@ class TORCH_API PyTorchStreamWriter final {
   std::unique_ptr<mz_zip_archive> ar_;
   std::string archive_name_;
   std::string archive_name_plus_slash_;
+  std::time_t archive_m_time_;
   std::string padding_;
   std::ofstream file_stream_;
   std::function<size_t(const void*, size_t)> writer_func_;
